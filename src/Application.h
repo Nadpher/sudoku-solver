@@ -15,11 +15,13 @@ public:
 	static void run();
 
 	static constexpr unsigned int realBoardSizeX = 500;
-	static constexpr unsigned int realBoardSizeY = 500 ;
+	static constexpr unsigned int realBoardSizeY = 500;
 
 private:
 	static void handleEvents();
 	static void drawBoard();
+	static void drawBounds();
+	static void drawNumbers();
 
 	static sf::RenderWindow window_;
 	static Board board_;

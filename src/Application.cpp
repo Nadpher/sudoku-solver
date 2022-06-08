@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ResourceManager.h"
 
 #include <cstdio>
 
@@ -36,13 +37,43 @@ void Application::run()
 
 void Application::drawBoard()
 {
+	drawBounds();
+	drawNumbers();
+}
+
+void Application::drawNumbers()
+{
+	float cellSizeX = realBoardSizeX / static_cast<float>(Board::boardLength);
+	float cellSizeY = realBoardSizeY / static_cast<float>(Board::boardLength);
+
+	for (unsigned int i = 0; i < Board::boardLength; ++i)
+	{
+		for (unsigned int j = 0; j < Board::boardLength; ++j)
+		{
+			unsigned int value = board_.readCell({j, i});
+
+			if (value)
+			{
+				sf::Text num;
+				num.setString(std::to_string(value));
+				num.setFont(*ResourceManager<sf::Font>::get("res/arial.ttf"));
+				num.setPosition(sf::Vector2f(cellSizeX * j, cellSizeY * i));
+
+				window_.draw(num);
+			}
+		}
+	}
+}
+
+void Application::drawBounds()
+{
 	float cellSizeX = realBoardSizeX / static_cast<float>(Board::boardLength);
 	float cellSizeY = realBoardSizeY / static_cast<float>(Board::boardLength);
 
 	sf::VertexArray arr(sf::LineStrip, 2);
 
 	const sf::Color grey(50, 50, 50, 255);
-	
+
 	for (int i = 0; i <= Board::boardLength; ++i)
 	{
 		arr[0].color = grey;
