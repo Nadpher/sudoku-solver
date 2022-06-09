@@ -27,6 +27,8 @@ private:
 	static void drawBounds();
 	static void drawNumbers();
 
+	static unsigned int selected_;
+
 	static sf::RenderWindow window_;
 	static Board board_;
 	static tgui::Gui gui_;

@@ -10,6 +10,7 @@ namespace nadpher
 sf::RenderWindow Application::window_;
 Board Application::board_;
 tgui::Gui Application::gui_;
+unsigned int Application::selected_ = 0;
 
 bool Application::init(unsigned int width, unsigned int height, const char* title)
 {
@@ -28,14 +29,11 @@ bool Application::init(unsigned int width, unsigned int height, const char* titl
 
 void Application::run()
 {
-	//test
-	tgui::Button::Ptr button = tgui::Button::create("1");
-	gui_.add(button, "1");
-	for (int i = 2; i <= Board::boardLength; ++i)
+	for (unsigned int i = 1; i <= Board::boardLength; ++i)
 	{
 		std::string id = std::to_string(i);
 
-		button = tgui::Button::create(id);
+		tgui::Button::Ptr button = tgui::Button::create(id);
 		gui_.add(button, id);
 
 		button->setPosition((i - 1) * 50, 0);
@@ -46,6 +44,8 @@ void Application::run()
 		handleEvents();
 
 		window_.clear();
+
+		printf("%i\n", selected_);
 
 		drawBoard();
 		gui_.draw();
