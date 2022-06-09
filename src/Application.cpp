@@ -2,11 +2,14 @@
 #include "ResourceManager.h"
 
 #include <cstdio>
+#include <string>
+#include <TGUI/Widgets/Button.hpp>
 
 namespace nadpher
 {
 sf::RenderWindow Application::window_;
 Board Application::board_;
+tgui::Gui Application::gui_;
 
 bool Application::init(unsigned int width, unsigned int height, const char* title)
 {
@@ -18,11 +21,26 @@ bool Application::init(unsigned int width, unsigned int height, const char* titl
 		return false;
 	}
 
+	gui_.setTarget(window_);
+
 	return true;
 }
 
 void Application::run()
 {
+	//test
+	tgui::Button::Ptr button = tgui::Button::create("1");
+	gui_.add(button, "1");
+	for (int i = 2; i <= Board::boardLength; ++i)
+	{
+		std::string id = std::to_string(i);
+
+		button = tgui::Button::create(id);
+		gui_.add(button, id);
+
+		button->setPosition((i - 1) * 50, 0);
+	}
+
 	while (window_.isOpen())
 	{
 		handleEvents();
@@ -30,6 +48,7 @@ void Application::run()
 		window_.clear();
 
 		drawBoard();
+		gui_.draw();
 
 		window_.display();
 	}
@@ -57,7 +76,7 @@ void Application::drawNumbers()
 				sf::Text num;
 				num.setString(std::to_string(value));
 				num.setFont(*ResourceManager<sf::Font>::get("res/arial.ttf"));
-				num.setPosition(sf::Vector2f(cellSizeX * j, cellSizeY * i));
+				num.setPosition(sf::Vector2f(cellSizeX * j + realBoardPositionX, cellSizeY * i + realBoardPositionY));
 
 				window_.draw(num);
 			}
@@ -86,14 +105,14 @@ void Application::drawBounds()
 		}
 
 		// columns
-		arr[0].position = sf::Vector2f(cellSizeX * i, 0);
-		arr[1].position = sf::Vector2f(cellSizeX * i, realBoardSizeY);
+		arr[0].position = sf::Vector2f(cellSizeX * i + realBoardPositionX, realBoardPositionY);
+		arr[1].position = sf::Vector2f(cellSizeX * i + realBoardPositionX, realBoardSizeY + realBoardPositionY);
 
 		window_.draw(arr);
 
 		// rows
-		arr[0].position = sf::Vector2f(0, cellSizeY * i);
-		arr[1].position = sf::Vector2f(realBoardSizeX, cellSizeY * i);
+		arr[0].position = sf::Vector2f(realBoardPositionX, cellSizeY * i + realBoardPositionY);
+		arr[1].position = sf::Vector2f(realBoardSizeX + realBoardPositionX, cellSizeY * i + realBoardPositionY);
 
 		window_.draw(arr);
 	}
