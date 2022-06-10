@@ -2,6 +2,11 @@
 
 int main()
 {
-	nadpher::Application::init(1024, 768);
-	nadpher::Application::run();
+	nadpher::Application app;
+	if (!app.init(1024, 768))
+	{
+		return 1;
+	}
+
+	app.run();
 }

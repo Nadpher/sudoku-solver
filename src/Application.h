@@ -13,8 +13,8 @@ class Application
 {
 public:
 
-	static bool init(unsigned int width, unsigned int height, const char* title = "Sudoku");
-	static void run();
+	bool init(unsigned int width, unsigned int height, const char* title = "Sudoku");
+	void run();
 
 	static constexpr unsigned int realBoardPositionX = 200;
 	static constexpr unsigned int realBoardPositionY = 200;
@@ -22,16 +22,18 @@ public:
 	static constexpr unsigned int realBoardSizeY = 400;
 
 private:
-	static void handleEvents();
-	static void drawBoard();
-	static void drawBounds();
-	static void drawNumbers();
+	void handleEvents();
+	void drawBoard();
+	void drawBounds();
+	void drawNumbers();
 
-	static unsigned int selected_;
+	void setValue(unsigned int value) { value_ = value; }
 
-	static sf::RenderWindow window_;
-	static Board board_;
-	static tgui::Gui gui_;
+	unsigned int value_ = 0;
+
+	sf::RenderWindow window_;
+	Board board_;
+	tgui::Gui gui_;
 };
 
 }

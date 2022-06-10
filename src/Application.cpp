@@ -7,10 +7,6 @@
 
 namespace nadpher
 {
-sf::RenderWindow Application::window_;
-Board Application::board_;
-tgui::Gui Application::gui_;
-unsigned int Application::selected_ = 0;
 
 bool Application::init(unsigned int width, unsigned int height, const char* title)
 {
@@ -35,6 +31,7 @@ void Application::run()
 
 		tgui::Button::Ptr button = tgui::Button::create(id);
 		gui_.add(button, id);
+		button->onPress(&Application::setValue, this, i);
 
 		button->setPosition((i - 1) * 50, 0);
 	}
@@ -45,7 +42,7 @@ void Application::run()
 
 		window_.clear();
 
-		printf("%i\n", selected_);
+		printf("%i\n", value_);
 
 		drawBoard();
 		gui_.draw();
@@ -123,6 +120,8 @@ void Application::handleEvents()
 	sf::Event event;
 	while (window_.pollEvent(event))
 	{
+		gui_.handleEvent(event);
+
 		switch (event.type)
 		{
 		case sf::Event::Closed:
