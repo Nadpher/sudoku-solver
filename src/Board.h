@@ -18,8 +18,6 @@ public:
 	static constexpr unsigned int boardLength = 9;
 private:
 
-	bool checkPosition(const Coord& pos) const;
-
 	std::array<unsigned int, boardLength * boardLength> board_;
 };
 

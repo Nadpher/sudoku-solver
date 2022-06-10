@@ -23,6 +23,8 @@ public:
 
 private:
 	void handleEvents();
+	void handleMousePress(const sf::Event& event);
+
 	void drawBoard();
 	void drawBounds();
 	void drawNumbers();

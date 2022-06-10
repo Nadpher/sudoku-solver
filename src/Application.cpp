@@ -42,8 +42,6 @@ void Application::run()
 
 		window_.clear();
 
-		printf("%i\n", value_);
-
 		drawBoard();
 		gui_.draw();
 
@@ -128,8 +126,58 @@ void Application::handleEvents()
 			window_.close();
 			break;
 
+		case sf::Event::MouseButtonPressed:
+			handleMousePress(event);
+			break;
+
 		default:
 			break;
+		}
+	}
+}
+
+void Application::handleMousePress(const sf::Event& event)
+{
+	// place
+	if (event.mouseButton.button == sf::Mouse::Button::Left)
+	{
+		// if clicked inside sudoku board
+		if (event.mouseButton.x > realBoardPositionX &&
+			event.mouseButton.x < realBoardPositionX + realBoardSizeX &&
+			event.mouseButton.y > realBoardPositionY &&
+			event.mouseButton.y < realBoardPositionY + realBoardSizeY)
+		{
+			float cellSizeX = realBoardSizeX / static_cast<float>(Board::boardLength);
+			float cellSizeY = realBoardSizeY / static_cast<float>(Board::boardLength);
+
+			// converts mouse position to board cell
+			// implicit rounding
+			Coord pos = { event.mouseButton.x - realBoardPositionX, event.mouseButton.y - realBoardPositionY };
+			pos.x /= cellSizeX;
+			pos.y /= cellSizeY;
+
+			board_.setCell(value_, pos);
+		}
+	}
+	// erase
+	else if (event.mouseButton.button == sf::Mouse::Button::Right)
+	{
+		// if clicked inside sudoku board
+		if (event.mouseButton.x > realBoardPositionX &&
+			event.mouseButton.x < realBoardPositionX + realBoardSizeX &&
+			event.mouseButton.y > realBoardPositionY &&
+			event.mouseButton.y < realBoardPositionY + realBoardSizeY)
+		{
+			float cellSizeX = realBoardSizeX / static_cast<float>(Board::boardLength);
+			float cellSizeY = realBoardSizeY / static_cast<float>(Board::boardLength);
+
+			// converts mouse position to board cell
+			// implicit rounding
+			Coord pos = { event.mouseButton.x - realBoardPositionX, event.mouseButton.y - realBoardPositionY };
+			pos.x /= cellSizeX;
+			pos.y /= cellSizeY;
+
+			board_.setCell(0, pos);
 		}
 	}
 }
