@@ -29,8 +29,6 @@ private:
 	void drawBounds();
 	void drawNumbers();
 
-	void setValue(unsigned int value) { value_ = value; }
-
 	unsigned int value_ = 0;
 
 	sf::RenderWindow window_;

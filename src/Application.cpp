@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <string>
 #include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Label.hpp>
 
 namespace nadpher
 {
@@ -25,14 +26,23 @@ bool Application::init(unsigned int width, unsigned int height, const char* titl
 
 void Application::run()
 {
+	tgui::Label::Ptr label = tgui::Label::create("Selected number: " + std::to_string(value_));
+	gui_.add(label, "label");
+	label->setTextSize(24);
+	label->setOrigin(0.0f, 1.0f);
+	label->setPosition("0", "100%");
+
 	for (unsigned int i = 1; i <= Board::boardLength; ++i)
 	{
 		std::string id = std::to_string(i);
 
 		tgui::Button::Ptr button = tgui::Button::create(id);
 		gui_.add(button, id);
-		button->onPress(&Application::setValue, this, i);
+		// when button is pressed, corresponding number is assigned to value
+		// and the label is changed to match the right value
+		button->onPress([=](unsigned int x) { value_ = x; label->setText("Selected number: " + std::to_string(x)); }, i);
 
+		// temporary positioning
 		button->setPosition((i - 1) * 50, 0);
 	}
 
