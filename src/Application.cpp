@@ -167,6 +167,7 @@ void Application::handleMousePress(const sf::Event& event)
 			pos.y /= cellSizeY;
 
 			board_.setCell(value_, pos);
+			printf("%i\n", board_.checkCell(pos));
 		}
 	}
 	// erase

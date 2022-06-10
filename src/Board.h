@@ -14,6 +14,7 @@ public:
 
 	void setCell(unsigned int value, const Coord& pos);
 	unsigned int readCell(const Coord& pos) const;
+	bool checkCell(const Coord& pos);
 
 	static constexpr unsigned int boardLength = 9;
 private:
