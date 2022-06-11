@@ -7,7 +7,7 @@ namespace nadpher
 
 Board::Board()
 {
-	board_.fill(0);
+	clear();
 }
 
 void Board::setCell(unsigned int value, const Coord& pos)

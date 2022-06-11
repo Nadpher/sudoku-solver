@@ -13,7 +13,7 @@ public:
 		: board_(board)
 	{}
 
-	void solve();
+	bool solve(unsigned int index=0);
 
 private:
 	Board& board_;

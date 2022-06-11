@@ -29,6 +29,8 @@ private:
 	void drawBounds();
 	void drawNumbers();
 
+	void solve();
+
 	unsigned int value_ = 0;
 
 	sf::RenderWindow window_;

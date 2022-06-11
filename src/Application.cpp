@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ResourceManager.h"
+#include "Solver.h"
 
 #include <cstdio>
 #include <string>
@@ -46,6 +47,18 @@ void Application::run()
 		button->setPosition((i - 1) * 50, 0);
 	}
 
+	tgui::Button::Ptr solver = tgui::Button::create("solve");
+	gui_.add(solver, "solver");
+	solver->onPress(&Application::solve, this);
+	solver->setPosition("100%", "0%");
+	solver->setOrigin(1.0f, 0.0f);
+
+	tgui::Button::Ptr clear = tgui::Button::create("clear");
+	gui_.add(clear, "clear");
+	clear->onPress([&] {board_.clear(); });
+	clear->setOrigin(1.0f, 0.0f);
+	clear->setPosition("100%", "solver.bottom + 20");
+
 	while (window_.isOpen())
 	{
 		handleEvents();
@@ -57,6 +70,12 @@ void Application::run()
 
 		window_.display();
 	}
+}
+
+void Application::solve()
+{
+	Solver solver(board_);
+	solver.solve();
 }
 
 void Application::drawBoard()
@@ -167,7 +186,13 @@ void Application::handleMousePress(const sf::Event& event)
 			pos.y /= cellSizeY;
 
 			board_.setCell(value_, pos);
-			printf("%i\n", board_.checkCell(pos));
+
+			// prevents user from entering invalid number
+			// to keep board solvable
+			if (!board_.checkCell(pos))
+			{
+				board_.setCell(0, pos);
+			}
 		}
 	}
 	// erase
