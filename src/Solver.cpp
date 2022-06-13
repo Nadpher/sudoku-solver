@@ -29,10 +29,7 @@ bool Solver::solve(unsigned int index)
 	{
 		if (board_.readCell(pos))
 		{
-			if (solve(index + 1))
-			{
-				return true;
-			}
+			return solve(index + 1);
 		}
 
 		for (int i = 1; i <= Board::boardLength; ++i)
