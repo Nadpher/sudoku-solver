@@ -185,13 +185,16 @@ void Application::handleMousePress(const sf::Event& event)
 			pos.x /= cellSizeX;
 			pos.y /= cellSizeY;
 
-			board_.setCell(value_, pos);
-
-			// prevents user from entering invalid number
-			// to keep board solvable
-			if (!board_.checkCell(pos))
+			if (!board_.readCell(pos))
 			{
-				board_.setCell(0, pos);
+				board_.setCell(value_, pos);
+
+				// prevents user from entering invalid number
+				// to keep board solvable
+				if (!board_.checkCell(pos))
+				{
+					board_.setCell(0, pos);
+				}
 			}
 		}
 	}
