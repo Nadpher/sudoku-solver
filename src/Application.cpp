@@ -59,6 +59,7 @@ void Application::run()
 	clear->setOrigin(1.0f, 0.0f);
 	clear->setPosition("100%", "solver.bottom + 20");
 
+	// main loop
 	while (window_.isOpen())
 	{
 		handleEvents();
@@ -100,7 +101,14 @@ void Application::drawNumbers()
 				sf::Text num;
 				num.setString(std::to_string(value));
 				num.setFont(*ResourceManager<sf::Font>::get("res/arial.ttf"));
-				num.setPosition(sf::Vector2f(cellSizeX * j + realBoardPositionX, cellSizeY * i + realBoardPositionY));
+
+				// centers number in cell
+				sf::FloatRect rect = num.getGlobalBounds();
+				num.setOrigin(sf::Vector2f(rect.width / 2.0f, rect.height));
+
+				num.setPosition(sf::Vector2f(cellSizeX * j + realBoardPositionX + float(cellSizeX / 2), 
+					cellSizeY * i + realBoardPositionY + float(cellSizeY/2)));
+
 
 				window_.draw(num);
 			}
